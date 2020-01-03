@@ -710,6 +710,8 @@ public class SpringApplication {
 		if (this.resourceLoader != null) {
 			return this.resourceLoader.getClassLoader();
 		}
+		// Thread.currentThread().getContextClassLoader() -> ClassUtils.class.getClassLoader
+		// -> ClassLoader.getSystemClassLoader()
 		return ClassUtils.getDefaultClassLoader();
 	}
 
