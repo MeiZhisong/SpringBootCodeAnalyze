@@ -78,16 +78,7 @@ public final class SpringFactoriesLoader {
 
 
 	/**
-	 * Load and instantiate the factory implementations of the given type from
-	 * {@value #FACTORIES_RESOURCE_LOCATION}, using the given class loader.
-	 * <p>The returned factories are sorted through {@link AnnotationAwareOrderComparator}.
-	 * <p>If a custom instantiation strategy is required, use {@link #loadFactoryNames}
-	 * to obtain all registered factory names.
-	 * @param factoryType the interface or abstract class representing the factory
-	 * @param classLoader the ClassLoader to use for loading (can be {@code null} to use the default)
-	 * @throws IllegalArgumentException if any factory implementation class cannot
-	 * be loaded or if an error occurs while instantiating any factory
-	 * @see #loadFactoryNames
+	 * 使用给定的类加载器去实例化给定类型的所有的实现类。
 	 */
 	public static <T> List<T> loadFactories(Class<T> factoryType, @Nullable ClassLoader classLoader) {
 		Assert.notNull(factoryType, "'factoryType' must not be null");
@@ -122,6 +113,7 @@ public final class SpringFactoriesLoader {
 		return loadSpringFactories(classLoader).getOrDefault(factoryTypeName, Collections.emptyList());
 	}
 
+	// 加载spring.factories文件，返回k,v -> 类或者接口的全限定名，所有的实现类 
 	private static Map<String, List<String>> loadSpringFactories(@Nullable ClassLoader classLoader) {
 		MultiValueMap<String, String> result = cache.get(classLoader);
 		if (result != null) {
@@ -130,6 +122,7 @@ public final class SpringFactoriesLoader {
 
 		try {
 			Enumeration<URL> urls = (classLoader != null ?
+				        // META-INF/spring.factories
 					classLoader.getResources(FACTORIES_RESOURCE_LOCATION) :
 					ClassLoader.getSystemResources(FACTORIES_RESOURCE_LOCATION));
 			result = new LinkedMultiValueMap<>();
